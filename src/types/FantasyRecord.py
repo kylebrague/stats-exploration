@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from statsmodels.stats.proportion import proportion_confint
+from numpy import random
 
 
 @dataclass(frozen=False)
@@ -17,6 +18,23 @@ class FantasyRecord:
             alpha=1 - confidence,
             method=method,
         )
+
+    def simulate_future_games(
+        self,
+        num_games=100,
+        alpha=10,
+    ):
+        if self.lower_bound is None or self.upper_bound is None:
+            self.lower_bound, self.upper_bound = self.compute_confidence_interval()
+        mu = (self.lower_bound + self.upper_bound) / 2
+        beta = alpha * (1 - mu) / mu
+        beta_samples = random.beta(alpha, beta, num_games)
+        # Simulate future games # 1 for win, 0 for loss
+        results = random.uniform(0, 1, num_games) < beta_samples
+        simulated_wins = sum(results)
+        simulated_losses = num_games - simulated_wins
+        win_prob = simulated_wins / num_games
+        return simulated_wins, simulated_losses, win_prob
 
     def __post_init__(self):
         if self.wins < 0 or self.losses < 0:
