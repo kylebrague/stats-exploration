@@ -55,7 +55,7 @@ class FantasyRecord:
             and self.losses == value.losses
         )
 
-    def __aprx__(self, value: object) -> bool:
+    def __aprxeq__(self, value: object) -> bool:
         return (
             self.name == value.name
             and self.wins == value.wins
