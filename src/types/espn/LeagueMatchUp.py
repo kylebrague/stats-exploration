@@ -134,16 +134,16 @@ class RosterForMatchupPeriodDelayed:
         self.entries = entries
 
 
-class Home:
+class Participant:
     adjustment: int
-    cumulative_score: Optional[CumulativeScore]
+    cumulativeScore: Optional[CumulativeScore]
     points_by_scoring_period: Optional[Dict[str, int]]
-    team_id: int
+    teamId: int
     tiebreak: int
-    total_points: int
+    totalPoints: int
     roster_for_current_scoring_period: Optional[RosterForCurrentScoringPeriod]
     roster_for_matchup_period_delayed: Optional[RosterForMatchupPeriodDelayed]
-    total_points_live: Optional[int]
+    totalPointsLive: Optional[int]
 
     def __init__(
         self,
@@ -158,14 +158,14 @@ class Home:
         total_points_live: Optional[int],
     ) -> None:
         self.adjustment = adjustment
-        self.cumulative_score = cumulative_score
+        self.cumulativeScore = cumulative_score
         self.points_by_scoring_period = points_by_scoring_period
-        self.team_id = team_id
+        self.teamId = team_id
         self.tiebreak = tiebreak
-        self.total_points = total_points
+        self.totalPoints = total_points
         self.roster_for_current_scoring_period = roster_for_current_scoring_period
         self.roster_for_matchup_period_delayed = roster_for_matchup_period_delayed
-        self.total_points_live = total_points_live
+        self.totalPointsLive = total_points_live
 
 
 class PlayoffTierType(Enum):
@@ -179,9 +179,9 @@ class Winner(Enum):
     UNDECIDED = "UNDECIDED"
 
 
-class Schedule:
-    away: Optional[Home]
-    home: Home
+class Ballgame:
+    away: Participant
+    home: Participant
     id: int
     matchup_period_id: int
     playoff_tier_type: PlayoffTierType
@@ -189,8 +189,8 @@ class Schedule:
 
     def __init__(
         self,
-        away: Optional[Home],
-        home: Home,
+        away: Optional[Participant],
+        home: Participant,
         id: int,
         matchup_period_id: int,
         playoff_tier_type: PlayoffTierType,
@@ -540,12 +540,12 @@ class Team:
         self.watch_list = watch_list
 
 
-class LeagueMatchUps:
+class FantasyLeagueData:
     draft_detail: DraftDetail
     game_id: int
     id: int
     members: List[Member]
-    schedule: List[Schedule]
+    schedule: List[Ballgame]
     scoring_period_id: int
     season_id: int
     segment_id: int
@@ -559,7 +559,7 @@ class LeagueMatchUps:
         game_id: int,
         id: int,
         members: List[Member],
-        schedule: List[Schedule],
+        schedule: List[Ballgame],
         scoring_period_id: int,
         season_id: int,
         segment_id: int,

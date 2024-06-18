@@ -10,6 +10,7 @@ class FantasyRecord:
     losses: int
     lower_bound: float = field(init=False, repr=False)
     upper_bound: float = field(init=False, repr=False)
+    data: dict = field(default_factory=dict)
 
     def compute_confidence_interval(self, confidence=0.95, method="jeffreys"):
         return proportion_confint(
